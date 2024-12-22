@@ -25,11 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             error_log("Geçersiz dosya türü: " . $file['name']);
         }
         else {
-            $target_dir = '/var/www/html/storage';
+            $target_dir = dirname(__DIR__) . '/storage';
             if (!empty($current_dir) && $current_dir !== '/') {
                 $target_dir .= '/' . trim($current_dir, '/');
             }
-            error_log("Hedef dizin: " . $target_dir);
+            error_log("Tam dosya yolu: " . $target_dir);
             error_log("Dizin var mı: " . (file_exists($target_dir) ? 'Evet' : 'Hayır'));
             error_log("Yazılabilir mi: " . (is_writable($target_dir) ? 'Evet' : 'Hayır'));
             error_log("PHP kullanıcısı: " . get_current_user());

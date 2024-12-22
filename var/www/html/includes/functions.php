@@ -4,7 +4,7 @@ require_once 'db.php';
 
 function scanDirectory($dir) {
     $files = [];
-    $base_path = '/var/www/html/storage'; // Tam yolu belirt
+    $base_path = dirname(__DIR__) . '/storage'; // Dinamik yol
     $full_path = $base_path;
     
     if (!empty($dir) && $dir !== '/') {
