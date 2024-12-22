@@ -25,7 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             error_log("Geçersiz dosya türü: " . $file['name']);
         }
         else {
-            $target_dir = '/var/www/html/storage/' . trim($current_dir, '/');
+            $target_dir = '/var/www/html/storage';
+            if (!empty($current_dir) && $current_dir !== '/') {
+                $target_dir .= '/' . trim($current_dir, '/');
+            }
             error_log("Hedef dizin: " . $target_dir);
             
             if (!file_exists($target_dir)) {
