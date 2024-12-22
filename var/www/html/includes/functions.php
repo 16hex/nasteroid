@@ -11,6 +11,10 @@ function scanDirectory($dir) {
         $full_path .= '/' . trim($dir, '/');
     }
     
+    error_log("Taranan dizin: " . $full_path);
+    error_log("Dizin var mı: " . (file_exists($full_path) ? 'Evet' : 'Hayır'));
+    error_log("Yazılabilir mi: " . (is_writable($full_path) ? 'Evet' : 'Hayır'));
+    
     if (is_dir($full_path)) {
         $items = scandir($full_path);
         foreach ($items as $item) {
