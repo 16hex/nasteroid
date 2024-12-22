@@ -30,12 +30,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $target_dir .= '/' . trim($current_dir, '/');
             }
             error_log("Hedef dizin: " . $target_dir);
+            error_log("Dizin var mı: " . (file_exists($target_dir) ? 'Evet' : 'Hayır'));
+            error_log("Yazılabilir mi: " . (is_writable($target_dir) ? 'Evet' : 'Hayır'));
+            error_log("PHP kullanıcısı: " . get_current_user());
+            error_log("PHP kullanıcı ID: " . getmyuid());
+            error_log("PHP grup ID: " . getmygid());
             
             if (!file_exists($target_dir)) {
+                error_log("Dizin oluşturuluyor...");
                 if (!mkdir($target_dir, 0777, true)) {
                     error_log("Dizin oluşturma hatası: " . error_get_last()['message']);
+                    error_log("PHP kullanıcısı: " . get_current_user());
+                    error_log("PHP kullanıcı ID: " . getmyuid());
+                    error_log("PHP grup ID: " . getmygid());
                     $message = 'Dizin oluşturulamadı.';
-                    error_log("Dizin oluşturulamadı: " . $target_dir);
+                } else {
+                    error_log("Dizin başarıyla oluşturuldu");
                 }
             }
             
