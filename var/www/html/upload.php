@@ -12,26 +12,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['file'])) {
         $file = $_FILES['file'];
         
+        // Hata ayıklama
+        error_log("Dosya yükleme başladı: " . $file['name']);
+        
         // Güvenlik kontrolleri
         if (!isValidPath($current_dir)) {
             $message = 'Geçersiz dizin yolu.';
+            error_log("Geçersiz dizin yolu: " . $current_dir);
         } 
         elseif (!isAllowedFileType($file['name'])) {
             $message = 'Bu dosya türüne izin verilmiyor.';
+            error_log("Geçersiz dosya türü: " . $file['name']);
         }
         else {
-            $target_dir = '/storage/' . trim($current_dir, '/');
+            $target_dir = '/var/www/html/storage/' . trim($current_dir, '/');
+            error_log("Hedef dizin: " . $target_dir);
             
-            if (!is_dir($target_dir)) {
-                mkdir($target_dir, 0755, true);
+            if (!file_exists($target_dir)) {
+                if (!mkdir($target_dir, 0777, true)) {
+                    error_log("Dizin oluşturma hatası: " . error_get_last()['message']);
+                    $message = 'Dizin oluşturulamadı.';
+                    error_log("Dizin oluşturulamadı: " . $target_dir);
+                }
             }
             
             $target_file = $target_dir . '/' . basename($file['name']);
+            error_log("Hedef dosya: " . $target_file);
             
             if (move_uploaded_file($file['tmp_name'], $target_file)) {
+                chmod($target_file, 0666);
                 $message = 'Dosya başarıyla yüklendi.';
+                error_log("Dosya başarıyla yüklendi: " . $target_file);
+                
+                // Başarılı yükleme sonrası ana dizine yönlendir
+                header('Location: index.php?dir=' . urlencode($current_dir));
+                exit;
             } else {
                 $message = 'Dosya yüklenirken bir hata oluştu.';
+                error_log("Dosya yükleme hatası: " . error_get_last()['message']);
             }
         }
     }
