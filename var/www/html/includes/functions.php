@@ -4,7 +4,7 @@ require_once 'db.php';
 
 function scanDirectory($dir) {
     $files = [];
-    $base_path = '/storage'; // NAS depolama konumu
+    $base_path = '/var/www/html/storage'; // Tam yolu belirt
     $full_path = $base_path . '/' . trim($dir, '/');
     
     if (is_dir($full_path)) {
