@@ -1,5 +1,5 @@
 <?php
-$db = new PDO('sqlite:/var/www/data/nas.db');
+$db = new PDO('sqlite:' . __DIR__ . '/../../data/nas.db');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 // Veritabanı tablosunu oluştur

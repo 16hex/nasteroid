@@ -1,10 +1,19 @@
 <?php
 
+// Hata ayıklama ayarları
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Log dosyası ayarları
+ini_set('log_errors', 1);
+ini_set('error_log', 'php_errors.log');
+
 require_once 'db.php';
 
 function scanDirectory($dir) {
     $files = [];
-    $base_path = dirname(__DIR__) . '/storage'; // Dinamik yol
+    $base_path = 'storage';  // Göreceli yol kullan
     $full_path = $base_path;
     
     if (!empty($dir) && $dir !== '/') {
